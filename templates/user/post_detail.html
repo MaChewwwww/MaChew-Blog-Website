@@ -1,0 +1,41 @@
+{% extends 'user/base.html' %}
+
+{% block content %}
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags == 'success' %}
+        <div class="alert-success">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  <div class="container p-1" style="background-color: rgb(148, 148, 148);">
+    <article class="media content-section m-3 p-3" id="article-bg" style="background-color: rgb(255, 255, 255);">
+      <div class="row">
+        <div class="col-2 col-sm-1">
+          <div class="media-left d-flex flex-column align-items-center">
+            <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}" style="height: 90px; width: auto; margin-top: 15px; margin-bottom: 15px;" />
+            <div class="username"><a href= {%  url 'user-post' post.author.username %}>{{ object.author.username }}</a></div>
+          </div>
+        </div>
+        <div class="col-8 col-sm-10" style="margin-top: 15px;">
+          <div class="media-body">
+            <div class="article-metadata">
+               {% if object.author == user %}
+                <a href="{% url 'post-update' object.id  %}" class="btn btn-success">Update</a>
+                <a href="{% url 'post-delete' object.id  %}" class="btn btn-danger">Delete</a>
+              {% endif %}
+              <div class="metadata-container">
+                <div class="date">{{ object.date_posted|date:'F d, Y' }}</div>
+              </div>
+            </div>
+            <div class="article-title">{{ object.title }}</div>
+            <div class="article-content">{{ object.content }}</div>
+          </div>
+        </div>
+        <!-- Force next columns to break to new line -->
+        <div class="w-100"></div>
+      </div>
+    </article>
+  </div>
+{% endblock %}
